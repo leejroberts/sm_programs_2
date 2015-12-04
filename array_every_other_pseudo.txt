@@ -1,0 +1,7 @@
+start
+	set array with a list of integers
+	create a method that removes odd indexed integers
+	get result of method and create a new array
+	new_array = result of method
+	puts new_array
+end
