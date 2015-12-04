@@ -1,0 +1,13 @@
+start
+	get variable 1
+		set variable 1 to A
+			convert it to an integer
+	get for variable 2
+		set variable 2 to B 
+		convert it to an integer
+	define method for A + B
+		print result
+	end
+	call method (A+B)
+
+		
