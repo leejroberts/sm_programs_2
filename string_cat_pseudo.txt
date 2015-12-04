@@ -1,0 +1,13 @@
+pseudo file array of strings
+
+start
+	set array []
+	define method
+		adds all array strings together and 
+		creates a new string
+	end
+	print method (thus new string)
+end
+
+
+
