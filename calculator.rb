@@ -1,17 +1,21 @@
 
+# transfers all prompt messages to below yaml file
+require 'yaml'
+MESSAGES = YAML.load_file('calculator_messages.yml')
+
 # method library
 # adds an arrow to all prompts =>
 def prompt(message)
   puts("=> #{message}")
 end
 
-# checks if number entered is a number
+# checks if number entered is an integer or a float
 # does not work on the number zero!!!!
 def valid_number?(number)
-  number.to_i != 0
+  number.to_f.to_s == number || number.to_i.to_s == number
 end
 
-prompt("Welcome to the Calculator! Enter your name:")
+prompt MESSAGES['welcome']
 
 # globalizes name var
 name = ''
@@ -20,13 +24,13 @@ name = ''
 loop do 
   name = gets.chomp
   if name.empty?
-    prompt("make sure to use a valid name.")
+    prompt(MESSAGES["valid_name"])
   else
     break
   end
 end
 
-prompt("hello #{name}!")
+prompt(MESSAGES["hello"])
 
 loop do # main loop
   a = "" # globalizes first number to a
@@ -34,23 +38,23 @@ loop do # main loop
 
 # gets var a/ validates var a
   loop do 
-    prompt("what is the first number?")
+    prompt(MESSAGES["first_number"])
     a = gets.chomp
     if valid_number?(a)
       break
     else
-      prompt("that is not a valid number. Try another!")
+      prompt(MESSAGES["invalid_number"])
     end
   end
 
   # gets var a/ validates var a
   loop do 
-    prompt("what is the second number?")
+    prompt(MESSAGES["second_number"])
     b = gets.chomp
     if valid_number?(b)
       break
     else
-      prompt("that is not a valid number. Try another!")
+      prompt(MESSAGES["invalid_number"])
     end
   end
 
@@ -110,9 +114,12 @@ loop do # main loop
            when '4'
              a.to_f / b.to_f
            end
+  puts result
+  puts a
+  puts b
 
   prompt("The result is #{result}")
-  prompt("Do you want to perform another calculation? (Y to calculate again)")
+  prompt(MESSAGES['calc_again?'])
   answer = gets.chomp
   break unless answer.downcase.start_with?('y') # breaks out of calculator with answer not y
   # answer = y returns user to start of MAIN loop (does not rewelcome/ask name)
