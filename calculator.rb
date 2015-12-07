@@ -114,9 +114,6 @@ loop do # main loop
            when '4'
              a.to_f / b.to_f
            end
-  puts result
-  puts a
-  puts b
 
   prompt("The result is #{result}")
   prompt(MESSAGES['calc_again?'])
