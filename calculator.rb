@@ -1,30 +1,115 @@
-# ask the user for two numbers
-# ask the user for an operation
-# perform the operaton on the two numbers
-#output the result
 
-puts "Welcome to the Calculator!"
-puts "what is the first number?"
-a = gets.chomp
-puts "what is the second number?"
-b = gets.chomp
+# method library
+  # adds an arrow to all prompts =>
+  def prompt(message)
+    puts("=> #{message}")
+  end
 
-puts "what operaton: 1) add 2) subtract 3) multiply 4) divide"
-operator = gets.chomp.to_i
+  # checks if number entered is a number
+  # does not work on the number zero!!!!
+  def valid_number?(number)
+    number.to_i != 0
+  end
 
-if operator == 1
-  puts "the result is #{a.to_i+ b.to_i}"
-elsif operator == 2
-  puts "the result is #{a.to_i - b.to_i}"
-elsif operator == 3
-  puts "the result is #{a.to_i * b.to_i}"
-else 
-  puts "the result is #{a.to_f / b.to_f}"
+prompt("Welcome to the Calculator! Enter your name:")
+
+name = ''
+loop do
+  name = gets.chomp
+  if name.empty?()
+    prompt("make sure to use a vaild name.")
+  else
+    break
+  end
 end
 
-    
+prompt("hello #{name}")
 
-#put 1 (a, b) {puts a + b}
-#def 2 (a, b) {puts a - b}
-#def 3 (a, b) {puts a * b}
-#def 4 (a, b) {puts a / b}
+
+loop do # main loop
+  a = "" # globalizes first number to a
+  b = "" # globalizes second number to b
+
+  loop do # gets first number assigns it to variable a
+    prompt("what is the first number?")
+    a = gets.chomp
+    if valid_number?(a)
+      break
+    else
+      prompt("that is not a valid number. Try another!")
+    end
+  end
+
+  loop do # gets second number assigns it to variable b
+    prompt("what is the second number?")
+    b = gets.chomp
+    if valid_number?(b)
+      break
+    else
+      prompt("that is not a vaild number. Try another!")
+    end
+  end
+# Prompt for calculation
+operator_prompt = <<-MSG
+what calculation would you like to perform?
+  1) add
+  2) subtract
+  3) multiply
+  4) divide
+MSG
+# Prompt for incorrect calculation selection
+fix_prompt = <<-MSG
+  1) add
+  2) subtract
+  3) multiply
+  4) divide
+MSG
+
+
+
+prompt(operator_prompt)
+operator = ''
+
+# assesses validity of operaton selection 1 2 3 4
+loop do
+  operator = gets.chomp
+  if %w(1 2 3 4).include?(operator)
+    break
+  else
+    prompt(fix_prompt)
+  end
+end
+# takes the selection of the operator
+# makes a message telling what operation calc is performing
+def operation_to_message(op)
+  case op 
+  when '1'
+    "adding"
+  when '2'
+    'subtracting'
+  when '3'
+    'multiplying'
+  when '4'
+    'dividing'
+  end
+end
+
+prompt("#{operation_to_message(operator)} your numbers...")# oper to message created above^
+
+result = case operator # determines the operation calculator performs
+  when '1'
+    a.to_i + b.to_i
+  when '2'
+    a.to_i - b.to_i
+  when '3'
+    a.to_i * b.to_i
+  when '4'
+    a.to_f / b.to_f
+  end
+
+prompt("The result is #{result}")
+prompt("Do you want to perform another calculation? (Y to calculate again)")
+answer = gets.chomp
+break unless answer.downcase.start_with?('y') # breaks out of loop with any answer ofther than y
+# in answer is not y returns to primary loop below welcome 
+end
