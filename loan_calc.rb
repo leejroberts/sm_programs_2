@@ -1,5 +1,6 @@
 # !!!!!y_m_converter not working currently
 
+
 # ========== METHOD LIBRARY BEGIN: =====================
 def prompt(mess) # prompt for all questions
   puts "==> #{mess}"
@@ -60,13 +61,12 @@ def y_m_checker(time) # checks unit of measure for loan time
 end
 
 def y_m_converter(time, n)
-  case time
-  when 'M'
-    n = n
-  when 'Y'
+  if time == "Y"
     n *= 12 
+  else
+    n = n
   end
-  return n
+  return n.to_i
 end
 
 def APR_checker(var)
@@ -114,30 +114,28 @@ end
 header("Welcome to the loan calculator!")
 
 # => name and greet loop
-name =''
 prompt('Please enter your name:')
 name = name_check_get_greet(name)
-
 
 # => main loop for calculator  
 loop do
   # l = loan amount
   prompt("What is the amount of your loan?")
   l= amount_check(l) # checks for valid entry
-  
-   # n = duration of loan 
+  # n = duration of loan 
   prompt("What is the duration of the loan?")
   n = duration_checker(n) # checks duration entry
   prompt("#{n} months or years? enter: Y / M")
   time = y_m_checker(time) #checks for months or years
-  y_m_converter(time, n) # converts n from months ==> years; if necc
+  n = y_m_converter(time, n) # converts n from months ==> years; if necc
 
   prompt("what is the APR?")
   i = APR_checker(i) # i = Annual Interest Rate
   c = i/n # c = monthly interest rate 
 
   # f = fixed monthly payment
-  f = (l * ((c * (1 + c)**n) / ((1 + c)**n - 1))) 
+  f = (l * ((c * (1 + c)**n)/((1 + c)**n - 1)))
+  f = sprintf("%00.2f", f) 
   puts "$#{f} is your fixed monthly payment"
 
   prompt('have you made any monthly payments yet?')
@@ -150,7 +148,8 @@ loop do
   when 'Y'    
     puts "how many months have you made payments for?" 
     p = pay_num_checker(p) # checking for valid p = no. of payments made
-    b = l*((1 + c)**n - (1 + c)**p)/((1 + c)**n - 1)
+    b = l*((1 + c)**n - (1 + c)**p) / ((1 + c)**n - 1)
+    b = sprintf("%00.2f", b)
     # b = remaining balance after p monthly payments
     puts "$#{b} is your remaining loan balance."
     puts "OK, would you like to calculate another loan?"
