@@ -1,5 +1,3 @@
-# method library
-
 def header(text)
   puts "=============={ #{text} }====================="
 end
@@ -37,20 +35,6 @@ def rounds_verify(number)
   return number
 end
 
-def win_lose_creator(number)
-  case number
-  when 1
-    win_lose = 1
-  when 3
-    win_lose = 2
-  when 5
-    win_lose = 3
-  when 7
-    win_lose = 4
-  end
-  return win_lose
-end
-
 def weapon_verify(answer)
   loop do
   answer = gets.chomp.upcase.byteslice(0).to_s
@@ -64,20 +48,43 @@ def weapon_verify(answer)
   return answer
 end
 
-# def y_n_verify(answer)
-#   loop do
-#   answer=gets.chomp.upcase.byteslice(0).to_s
-#     if answer == "N" || answer == "Y"
-#       break
-#     else prompt('want to play again? Y/N')
-#     end
-#   end
-#   return answer
-# end
+def round_puts(user_weapon, comp_weapon, name, round_counter)
+  if user_weapon == "Rock" && comp_weapon == "Scissors" ||
+    user_weapon == "Paper" && comp_weapon == "Rock" ||
+    user_weapon == "Scissors" && comp_weapon == "Paper"
+  puts "#{name} selects #{user_weapon}, computer selects #{comp_weapon}
+  #{name} wins round #{round_counter + 1}!"
+  elsif user_weapon == comp_weapon
+    puts "You both selected #{user_weapon}. round #{round_counter + 1} is a draw."
+  else
+    puts "#{name} selects #{user_weapon}, computer selects #{comp_weapon}
+    #{name} loses round #{round_counter + 1}."
+  end
+end
 
-
-
-# method library end
+def win_lose_counter(user_weapon, comp_weapon, win_lose)
+  if user_weapon == "Rock" && comp_weapon == "Scissors" ||
+    user_weapon == "Paper" && comp_weapon == "Rock" ||
+    user_weapon == "Paper" && comp_weapon == "Rock"
+    win_lose += 1
+  elsif user_weapon == comp_weapon
+    win_lose + 0 
+  else
+    win_lose -= 1
+  end
+  return win_lose
+end
+  
+def y_n_verify(answer)
+  loop do
+  answer = gets.chomp.upcase.byteslice(0).to_s
+    if answer == "N" || answer == "Y"
+      break
+    else prompt('want to play again? Y/N')
+    end
+  end
+  return answer
+end
 
 header("Welcome to Rock, Paper Scissors")
 puts ''
@@ -88,11 +95,12 @@ greet(name)
 
 rules = <<-MSG
 OK, here's how the game works:
-    ==> Paper beats Rock
-    ==> Rock beats Scissors
-    ==> Scissors beats Paper
+      ==> Paper beats Rock
+      ==> Rock beats Scissors
+      ==> Scissors beats Paper
 
 MSG
+prompt(rules)
 
 rounds_mess = <<-MSG
 How many rounds would you like to play?
@@ -102,111 +110,60 @@ How many rounds would you like to play?
       7) best of 7
 MSG
 
-prompt(rules)
-prompt(rounds_mess)
-
-rounds = rounds_verify(rounds)
-win_counter = 0
-lose_counter = 0
-win_lose = win_lose_creator(rounds)
-
-p win_lose
-
-
-sel_weapon = <<-MSG
+sel_weapon = <<-MSG 
 select your weapon:
-    R) Rock
-    P) Paper
-    S) Scissors
+      R) Rock
+      P) Paper
+      S) Scissors
+MSG
 
+loop do #MAIN LOOP sets rounds
+  prompt(rounds_mess) # asks number of rounds to play
+  rounds = rounds_verify(rounds) # verifies rounds
+  round_counter = 0 #tracks rounds played
+  win_lose = 0 # when > 0 wins, when < 0 loses
+
+  weapon_hash = {'R' => 'Rock', 'P' => 'Paper', 'S' => 'Scissors'}
+  weapon_array = ['Rock', 'Paper', 'Scissors']
+  prompt("OK #{name} let's play #{rounds} rounds! FIGHT!!!")
+  loop do # ALL ROUNDS LOOP results best of #{rounds}
+    loop do # ROUND LOOP results 1 round breaks when round_counter == rounds
+      prompt(sel_weapon) #asks R P S
+      weapon = weapon_verify(weapon) # verifies weapon select
+      user_weapon = weapon_hash[weapon] # sets user weapon
+      comp_weapon = weapon_array.sample # sets comp weapon
+      round_puts(user_weapon, comp_weapon, name, round_counter) # puts round results
+      round_counter += 1 #adds 1 to round counter
+      win_lose = win_lose_counter(user_weapon, comp_weapon, win_lose) 
+      #tracks wins/loses
+      if round_counter == rounds 
+        break
+      else
+        puts "Get ready for the round #{round_counter + 1}!"
+      end 
+    end # ROUND LOOP end
+    player_wins = <<-MSG
+    #{name} has WON! Computer hangs his head in shame. 
+    Give Computer a chance to redeem himself?!"
+    ENTER: Y/N 
     MSG
 
-weapon_hash = {'R' => 'Rock', 'P' => 'Paper', 'S' => 'Scissors'}
-prompt("OK #{name} let's play #{rounds} rounds! FIGHT!!!")
-
-loop do
-  prompt(sel_weapon)
-  weapon = weapon_verify(weapon)
-  user_weapon = weapon_hash[weapon]
-
-  p weapon
-  
-  p user_weapon
-
-  # comp_weapon = weapon_hash.random_select.value
-  # p comp_weapon
-break
-
-end
-
-#   Prompt("let's see what you've got!")
-  
-#   wins_mess = <<-MSG
-#   #{name} selects #{user_weapon}, computer selects #{comp_weapon}
-#   #{name} wins round!"
-#   MSG
-
-#   lose_mess = <<-MSG
-#   #{name} selects #{user_weapon}, computer selects #{comp_weapon}
-#   #{name} loses round..."
-#   MSG
-
-#   if user_weapon == "Rock" && comp_weapon == "Scissors"
-#     puts wins_mess
-#     win_counter += 1
-#   elsif user_weapon == "Paper" && comp_weapon == "Rock"
-#     puts wins_mess
-#     win_counter += 1
-#   elsif user_weapon == "Scissors" && comp_weapon == "Rock"
-#     puts wins_mess
-#     win_counter += 1
-#   else
-#     puts lose_mess
-#     lose_counter += 1
-#   end
-# return win_counter
-# return lose_counter
-
-# player_wins = <<-MSG
-# {name} has won! Computer hangs his head in shame. 
-# Give  Computer a chance to redeem himself?"
-# ENTER: Y/N 
-# MSG
-
-# player_loses = <<-MSG
-# The computer has defeated #{name}. You want some more punk?
-# ENTER: Y/N
-# MSG
-
-# if win_counter = win_lose
-#   puts player_wins
-# elsif lose_counter = win_lose 
-#   puts player_loses
-# end
-
-# play_again = y_n_verify(play_again)
-# if play_again = N
-#   break
-# return 
+    player_loses = <<-MSG
+    Computer has DEFEATED #{name}. You want some more punk?
+    ENTER: Y/N
+    MSG
+    if win_lose > 0
+      puts player_wins
+      break
+    else 
+      puts player_loses
+      break
+    end
+  end # ALL ROUNDS LOOP end
+  play_again = y_n_verify(play_again)
+  if play_again == 'N'
+    break
+  end 
+end # MAIN LOOP end
 
 header("Thanks for playing Rock, Paper, Scissors!")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
