@@ -47,7 +47,7 @@ def weapon_verify(answer) # working
     if answer_array.include?(answer)
       break
     else
-      prompt("Re-enter selection: R: (R)ock, P: (P)aper, S: (S)cissors, L: (L)izard, K: SpocK")
+      prompt("Re-enter selection: R: (R)ock, P: (P)aper, S: (S)cissors, L: (L)izard, K: Spoc(K)")
     end
   end
   return answer
@@ -55,10 +55,10 @@ end
 
 def round_puts(user, comp, name, round_counter) # working
   if (user == "Rock" && (comp == "Scissors" || comp == "Lizard")) ||
-    (user == "Paper" && (comp == "Rock" || comp == "Spock")) ||
+    (user == "Paper" && (comp == "Rock" || comp == "SpocK")) ||
     (user == "Scissors" && (comp == "Paper" || comp == "Lizard")) ||
-    (user == "Lizard" && (comp == "Paper" || comp == "Spock")) ||
-    (user == "Spock" && (comp == "Rock"  || comp == "Scissors"))
+    (user == "Lizard" && (comp == "Paper" || comp == "SpocK")) ||
+    (user == "SpocK" && (comp == "Rock" || comp == "Scissors"))
   puts "#{name} selects #{user}, computer selects #{comp}
   ==> #{name} wins Round #{round_counter + 1}!"
   elsif user == comp
@@ -71,10 +71,10 @@ def round_puts(user, comp, name, round_counter) # working
 end
 def win_lose_counter(user, comp, win_lose) # working
   if (user == "Rock" && (comp == "Scissors" || comp == "Lizard")) ||
-    (user == "Paper" && (comp == "Rock" || comp == "Spock")) ||
+    (user == "Paper" && (comp == "Rock" || comp == "SpocK")) ||
     (user == "Scissors" && (comp == "Paper" || comp == "Lizard")) ||
-    (user == "Lizard" && (comp == "Paper" || comp == "Spock")) ||
-    (user == "Spock" && (comp == "Rock"  || comp == "Scissors"))
+    (user == "Lizard" && (comp == "Paper" || comp == "SpocK")) ||
+    (user == "SpocK" && (comp == "Rock"  || comp == "Scissors"))
     win_lose += 1
   elsif user == comp
     win_lose + 0 
